@@ -7,7 +7,7 @@ import org.hibernate.annotations.Comment;
 @Table(name = "MEET_INFO")
 public class MeetInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEET_SEQ", nullable = false)
     private Long meetSeq;
 
