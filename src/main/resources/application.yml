@@ -2,6 +2,7 @@ spring:
   config:
     import:
       - classpath:/config/database-config.yml
+      - classpath:/config/swagger-config.yml
   jpa:
     show-sql: true
     properties:
