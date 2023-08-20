@@ -12,3 +12,8 @@ spring:
           dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create-drop
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: debug
