@@ -45,6 +45,5 @@ public class Email {
         if (!EMAIL_PATTERN.matcher(email).find()) {
             throw new IllegalArgumentException("잘못된 이메일 형식입니다.");
         }
-
     }
 }

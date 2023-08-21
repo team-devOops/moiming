@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 class EmailTest {
-    
+
     @DisplayName("이메일 주소가 비어있으면 안된다.")
     @NullAndEmptySource
     @ParameterizedTest
@@ -44,6 +44,4 @@ class EmailTest {
             softly.assertThat(email.getValue()).isEqualTo(emailString);
         });
     }
-
-
 }

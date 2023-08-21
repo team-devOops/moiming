@@ -8,19 +8,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 
-
-@DataJpaTest
 class UserTest {
 
     private Email collectEmail;
+
     @BeforeEach
     void setUp() {
         collectEmail = Email.of("kbh058@naver.com");
     }
-
     @DisplayName("유저의 이름은 비어 있으면 안된다")
     @NullAndEmptySource
     @ParameterizedTest
@@ -59,7 +56,4 @@ class UserTest {
         assertThatIllegalArgumentException().isThrownBy(()
                 -> User.createUser("kbh052", (Email) null, "name", "1234", LocalDate.now()));
     }
-
-
-
 }
