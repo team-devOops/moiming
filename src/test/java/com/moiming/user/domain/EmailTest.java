@@ -1,18 +1,17 @@
 package com.moiming.user.domain;
 
 
-import com.moiming.user.domain.Email;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
 class EmailTest {
-
+    
     @DisplayName("이메일 주소가 비어있으면 안된다.")
     @NullAndEmptySource
     @ParameterizedTest

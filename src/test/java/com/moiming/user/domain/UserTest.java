@@ -1,17 +1,14 @@
 package com.moiming.user.domain;
 
-import com.moiming.user.domain.Email;
-import com.moiming.user.domain.User;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-
-import java.time.LocalDate;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 
 

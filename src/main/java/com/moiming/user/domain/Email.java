@@ -1,15 +1,11 @@
 package com.moiming.user.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.regex.Pattern;
 
 
 @Embeddable
@@ -26,7 +22,6 @@ public class Email {
     @Transient
     private String domain;
 
-
     private String value;
 
     private Email(String email) {
@@ -38,6 +33,10 @@ public class Email {
         this.value = email;
     }
 
+    public static Email of(String email) {
+        return new Email(email);
+    }
+
     private void validate(String email) {
         if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("이메일 주소가 비어있습니다..");
@@ -47,10 +46,5 @@ public class Email {
             throw new IllegalArgumentException("잘못된 이메일 형식입니다.");
         }
 
-    }
-
-
-    public static Email of(String email) {
-        return new Email(email);
     }
 }
