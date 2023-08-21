@@ -47,7 +47,8 @@ public class User {
     private String name;
 
     @NotNull
-    @Column(name = "PASSWORD", columnDefinition = "VARCHAR(40)")
+    @Column(name = "PASSWORD")
+    @Size(max = 40)
     @Comment("패스워드")
     private String password;
     @NotNull
