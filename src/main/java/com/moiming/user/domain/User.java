@@ -1,11 +1,15 @@
-package com.moiming.domain;
+package com.moiming.user.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDate;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "users")
@@ -14,40 +18,48 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Comment("유저 KEY")
     @Column(name = "USER_SEQ")
+    @Comment("유저 KEY")
     private Long seq;
 
+    @NotNull
+    @Size(min = 4, max = 20)
+    @Column(name = "ID", unique = true)
     @Comment("유저 아이디")
-    @Column(name = "ID", unique = true, nullable = false, columnDefinition = "VARCHAR(20)")
     private String id;
 
-    @Comment("유저 이메일")
-    @Column(name = "EMAIL", unique = true, nullable = false, columnDefinition = "VARCHAR(100)")
+    @NotNull
     @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "value", column = @Column(name = "EMAIL", unique = true, columnDefinition = "VARCHAR(50)", nullable = false))
+    )
     private Email email;
 
+    @NotNull
+    @Size(max = 20)
+    @Column(name = "NAME")
     @Comment("유저 이름")
-    @Column(name = "NAME", nullable = false, columnDefinition = "VARCHAR(20)")
     private String name;
 
+    @NotNull
+    @Column(name = "PASSWORD", columnDefinition = "VARCHAR(40)")
     @Comment("패스워드")
-    @Column(name = "PASSWORD", nullable = false, columnDefinition = "VARCHAR(40)")
     private String password;
-
+    @NotNull
+    @Column(name = "BIRTH_DATE")
     @Comment("생일")
-    @Column(name = "BIRTH_DATE", nullable = false)
     private LocalDate birthDate;
 
+    @NotNull
+    @Size(max = 1)
+    @Column(name = "USE_YN")
     @Comment("사용여부")
-    @Column(name = "USE_YN", nullable = false, columnDefinition = "CHAR(1)")
     private String useYn;
-
+    @NotNull
+    @Size(max = 1)
+    @Column(name = "AUTH_YN")
     @Comment("이메일 인증 여부")
-    @Column(name = "AUTH_YN", nullable = false, columnDefinition = "CHAR(1)")
     private String authYn;
-
-
 
     private User(String id, Email email, String name, String password, LocalDate birthDate) {
         validateId(id);
@@ -64,6 +76,15 @@ public class User {
         this.useYn = "Y";
         this.authYn = "N";
     }
+
+    public static User createUser(String id, Email email, String name, String password, LocalDate birthDate) {
+        return new User(id, email, name, password, birthDate);
+    }
+
+    public static User createUser(String id, String email, String name, String password, LocalDate birthDate) {
+        return new User(id, Email.of(email), name, password, birthDate);
+    }
+
 
     private void validateId(String id) {
         if (id == null || id.isEmpty()) {
@@ -93,10 +114,6 @@ public class User {
         if (email == null) {
             throw new IllegalArgumentException("이메일이 비어있습니다.");
         }
-    }
-
-    public static User createUser(String id, Email email, String name, String password, LocalDate birthDate) {
-        return new User(id, email, name, password, birthDate);
     }
 
 }
