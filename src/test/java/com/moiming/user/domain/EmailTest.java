@@ -12,24 +12,24 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 class EmailTest {
 
-    @DisplayName("이메일 주소가 비어있으면 안된다.")
-    @NullAndEmptySource
     @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("이메일 주소가 비어있으면 안된다.")
     void notEmpty(String email) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> Email.of(email));
     }
 
-    @DisplayName("이메일 형식이 잘못되면 안된다.")
     @ParameterizedTest
     @CsvSource(value = {"abc", "abc@abc", "abc@abc."})
+    @DisplayName("이메일 형식이 잘못되면 안된다.")
     void validEmail(String email) {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> Email.of(email));
     }
 
-    @DisplayName("이메일이 생성이 된다.")
     @Test
+    @DisplayName("이메일이 생성이 된다.")
     void createEmail() {
         // given
         String emailString = "kbh052@gmail.com";

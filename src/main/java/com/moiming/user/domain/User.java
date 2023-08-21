@@ -33,11 +33,13 @@ public class User {
     @Comment("유저 아이디")
     private String id;
 
-    @NotNull
+
     @Embedded
+    @NotNull
     @AttributeOverrides(
             @AttributeOverride(name = "value", column = @Column(name = "EMAIL", unique = true, columnDefinition = "VARCHAR(50)", nullable = false))
     )
+    @Comment("유저 이메일")
     private Email email;
 
     @NotNull
@@ -47,8 +49,8 @@ public class User {
     private String name;
 
     @NotNull
-    @Column(name = "PASSWORD")
     @Size(max = 40)
+    @Column(name = "PASSWORD")
     @Comment("패스워드")
     private String password;
     @NotNull
