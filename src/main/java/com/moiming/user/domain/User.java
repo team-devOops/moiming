@@ -120,5 +120,4 @@ public class User {
             throw new IllegalArgumentException("이메일이 비어있습니다.");
         }
     }
-
 }
