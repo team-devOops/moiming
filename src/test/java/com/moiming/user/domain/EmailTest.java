@@ -1,6 +1,7 @@
-package com.moiming.domain;
+package com.moiming.user.domain;
 
 
+import com.moiming.user.domain.Email;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,7 +42,7 @@ class EmailTest {
         assertSoftly(softly -> {
             softly.assertThat(email.getId()).isEqualTo("kbh052");
             softly.assertThat(email.getDomain()).isEqualTo("gmail.com");
-            softly.assertThat(email.getAddress()).isEqualTo(emailString);
+            softly.assertThat(email.getValue()).isEqualTo(emailString);
         });
     }
 

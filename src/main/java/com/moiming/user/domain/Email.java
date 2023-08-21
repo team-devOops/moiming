@@ -1,27 +1,33 @@
-package com.moiming.domain;
+package com.moiming.user.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.regex.Pattern;
 
+
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Email {
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
     private static final String EMAIL_AT = "@";
 
-    @Getter
+    @Transient
     private String id;
 
-    @Getter
+    @Transient
     private String domain;
 
-    @Getter
-    private String address;
+
+    private String value;
 
     private Email(String email) {
         validate(email);
@@ -29,7 +35,7 @@ public class Email {
         String[] split = email.split(EMAIL_AT);
         this.id = split[0];
         this.domain = split[1];
-        this.address = email;
+        this.value = email;
     }
 
     private void validate(String email) {
@@ -40,6 +46,7 @@ public class Email {
         if (!EMAIL_PATTERN.matcher(email).find()) {
             throw new IllegalArgumentException("잘못된 이메일 형식입니다.");
         }
+
     }
 
 
