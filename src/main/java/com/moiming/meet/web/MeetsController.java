@@ -35,12 +35,12 @@ public class MeetsController {
     @PostMapping
     @Operation(summary = "모임 생성", description = "모임을 생성합니다.")
     public ResponseEntity<Void> meetCreate(@RequestBody @Valid MeetCreateRequest request) {
-        MeetInfo response = meetInfoService.register(request.toEntity());
+        Long response = meetInfoService.register(request.toEntity());
 
         return ResponseEntity.created(ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{meetSeq}")
-                .buildAndExpand(response.getMeetSeq())
+                .buildAndExpand(response)
                 .toUri())
                 .build();
     }
