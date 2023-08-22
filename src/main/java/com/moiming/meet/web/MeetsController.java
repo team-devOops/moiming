@@ -1,7 +1,7 @@
 package com.moiming.meet.web;
 
 import com.moiming.meet.application.MeetInfoService;
-import com.moiming.meet.domain.MeetCreateRequest;
+import com.moiming.meet.dto.MeetCreateRequest;
 import com.moiming.meet.domain.MeetInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

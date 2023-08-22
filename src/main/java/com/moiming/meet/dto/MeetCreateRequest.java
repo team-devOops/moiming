@@ -1,16 +1,16 @@
-package com.moiming.meet.domain;
+package com.moiming.meet.dto;
 
+import com.moiming.meet.domain.MeetInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import static com.moiming.meet.domain.MeetValidateMessage.NAME_IS_NOT_NULL;
-import static com.moiming.meet.domain.MeetValidateMessage.NAME_SIZE_INVALID;
+import static com.moiming.meet.dto.MeetValidateMessage.NAME_IS_NOT_NULL;
+import static com.moiming.meet.dto.MeetValidateMessage.NAME_SIZE_INVALID;
 
 @Getter
 @Builder
-@AllArgsConstructor
 @Schema(description = "모임 생성 요청 DTO")
 public class MeetCreateRequest {
     @Size(max = 64, message = NAME_SIZE_INVALID)

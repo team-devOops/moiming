@@ -1,5 +1,7 @@
 package com.moiming.meet.domain;
 
+import com.moiming.meet.dto.MeetCreateRequest;
+import com.moiming.meet.dto.MeetValidateMessage;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

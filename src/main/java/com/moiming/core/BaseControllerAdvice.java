@@ -7,8 +7,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class BaseControllerAdvice {
@@ -16,11 +16,9 @@ public class BaseControllerAdvice {
     public ResponseEntity<List<InvalidResponse>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
 
-        List<InvalidResponse> responses = new ArrayList<>();
-
-        bindingResult.getFieldErrors().stream().forEach(fieldError -> {
-            responses.add(new InvalidResponse(fieldError.getField(), fieldError.getDefaultMessage(), fieldError.getRejectedValue()));
-        });
+        List<InvalidResponse> responses =  bindingResult.getFieldErrors().stream()
+                .map(fieldError -> new InvalidResponse(fieldError.getField(), fieldError.getDefaultMessage(), fieldError.getRejectedValue()))
+                .collect(Collectors.toList());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

@@ -1,4 +1,4 @@
-package com.moiming.meet.domain;
+package com.moiming.meet.dto;
 
 public class MeetValidateMessage {
     public static final String NAME_IS_NOT_NULL = "모임명을 작성해주세요.";

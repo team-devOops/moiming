@@ -21,10 +21,11 @@ public class MeetInfo {
     @Size(max = 64)
     @NotNull
     @Comment("모임 이름")
-    @Column(name = "NAME", columnDefinition = "varchar(64)")
+    @Column(name = "NAME")
     private String name;
 
+    @Size(max = 512)
     @Comment("모임 설명")
-    @Column(name = "DESCRIPTION", columnDefinition = "varchar(512)")
+    @Column(name = "DESCRIPTION")
     private String description;
 }
