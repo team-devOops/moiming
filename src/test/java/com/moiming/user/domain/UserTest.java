@@ -23,8 +23,8 @@ class UserTest {
     @NullAndEmptySource
     @DisplayName("유저의 이름은 비어 있으면 안된다")
     void noNameUser(String name) {
-        assertThatIllegalArgumentException().isThrownBy(() ->
-                User.createUser("kbh052", collectEmail, name, "1234", LocalDate.of(1995, 8, 2)));
+        assertThatIllegalArgumentException().isThrownBy(()
+                -> User.createUser("kbh052", collectEmail, name, "1234", LocalDate.of(1995, 8, 2)));
 
     }
 

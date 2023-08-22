@@ -33,11 +33,10 @@ public class User {
     @Comment("유저 아이디")
     private String id;
 
-
     @Embedded
     @NotNull
     @AttributeOverrides(
-            @AttributeOverride(name = "value", column = @Column(name = "EMAIL", unique = true, columnDefinition = "VARCHAR(50)", nullable = false))
+        @AttributeOverride(name = "value", column = @Column(name = "EMAIL", unique = true, nullable = false, columnDefinition = "VARCHAR(50)"))
     )
     @Comment("유저 이메일")
     private Email email;
@@ -53,6 +52,7 @@ public class User {
     @Column(name = "PASSWORD")
     @Comment("패스워드")
     private String password;
+
     @NotNull
     @Column(name = "BIRTH_DATE")
     @Comment("생일")
@@ -63,6 +63,7 @@ public class User {
     @Column(name = "USE_YN")
     @Comment("사용여부")
     private String useYn;
+
     @NotNull
     @Size(max = 1)
     @Column(name = "AUTH_YN")
@@ -92,7 +93,6 @@ public class User {
     public static User createUser(String id, String email, String name, String password, LocalDate birthDate) {
         return new User(id, Email.of(email), name, password, birthDate);
     }
-
 
     private void validateId(String id) {
         if (id == null || id.isEmpty()) {
