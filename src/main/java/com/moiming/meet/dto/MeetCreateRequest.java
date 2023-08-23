@@ -11,6 +11,8 @@ import static com.moiming.meet.dto.MeetValidateMessage.NAME_SIZE_INVALID;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Schema(description = "모임 생성 요청 DTO")
 public class MeetCreateRequest {
     @Size(max = 64, message = NAME_SIZE_INVALID)

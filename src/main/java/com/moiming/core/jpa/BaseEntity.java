@@ -12,11 +12,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @MappedSuperclass
-@EnableJpaAuditing
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
-    @NotNull
     @CreatedDate
     @Comment("생성일")
     @Column(name = "REG_DATE", updatable = false)
