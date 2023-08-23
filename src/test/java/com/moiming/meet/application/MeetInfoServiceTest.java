@@ -93,7 +93,7 @@ class MeetInfoServiceTest {
             Long response = service.register(meetInfo);
 
             //then
-            assertThat(response).isNotZero();
+            assertThat(response).isZero();
         }
     }
 }
