@@ -61,13 +61,13 @@ class MeetsControllerTest {
             //given
             String param = 모임_생성_파라미터();
 
-            //when
             MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(baseUrl)
                             .content(param)
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.status().isCreated())
                     .andReturn();
 
+            //when
             mockMvc.perform(MockMvcRequestBuilders.get(mvcResult.getResponse().getRedirectedUrl()))
                     .andExpect(MockMvcResultMatchers.status().isOk());
         }
