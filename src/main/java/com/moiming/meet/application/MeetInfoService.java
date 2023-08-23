@@ -38,9 +38,8 @@ public class MeetInfoService {
      */
     @Transactional
     public void remove(Long meetId) {
-        //TODO: NoResultException -> CustomNoResultException
         MeetInfo meetInfo = repository.findById(meetId)
-                .orElseThrow(NoResultException::new);
+                .orElseThrow(CustomNoResultException::new);
 
         meetInfo.meetRemove();
     }

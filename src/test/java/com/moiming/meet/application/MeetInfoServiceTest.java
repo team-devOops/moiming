@@ -80,14 +80,20 @@ class MeetInfoServiceTest {
                     .description("description")
                     .build();
 
-            MeetInfo expectedMeetInfo = MeetInfo.builder()
-                    .meetSeq(1L)
-                    .name(meetInfo.getName())
-                    .description(meetInfo.getDescription())
-                    .createDate(LocalDate.now())
-                    .build();
-
-            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
+            모임_생성_성공(meetInfo);
+//            MeetInfo meetInfo = MeetInfo.builder()
+//                    .name("name")
+//                    .description("description")
+//                    .build();
+//
+//            MeetInfo expectedMeetInfo = MeetInfo.builder()
+//                    .meetSeq(1L)
+//                    .name(meetInfo.getName())
+//                    .description(meetInfo.getDescription())
+//                    .createDate(LocalDate.now())
+//                    .build();
+//
+//            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
 
             //when
             Long response = service.register(meetInfo);
@@ -95,5 +101,38 @@ class MeetInfoServiceTest {
             //then
             assertThat(response).isNotZero();
         }
+    }
+
+    @Nested
+    @DisplayName("모임 삭제")
+    class meetRemove {
+        @Test
+        @DisplayName("모임 삭제 성공")
+        void removeSuccess() {
+            //given
+            MeetInfo meetInfo = MeetInfo.builder()
+                    .name("name")
+                    .description("description")
+                    .build();
+
+            모임_생성_성공(meetInfo);
+
+            //when
+            meetInfo.meetRemove();
+
+            //then
+
+        }
+    }
+
+    private void 모임_생성_성공(MeetInfo meetInfo) {
+        MeetInfo expectedMeetInfo = MeetInfo.builder()
+                .meetSeq(1L)
+                .name(meetInfo.getName())
+                .description(meetInfo.getDescription())
+                .createDate(LocalDate.now())
+                .build();
+
+        given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
     }
 }
