@@ -32,4 +32,16 @@ public class MeetInfoService {
         return repository.save(request)
                 .getMeetSeq();
     }
+
+    /**
+     * 모임을 삭제합니다.
+     */
+    @Transactional
+    public void remove(Long meetId) {
+        //TODO: NoResultException -> CustomNoResultException
+        MeetInfo meetInfo = repository.findById(meetId)
+                .orElseThrow(NoResultException::new);
+
+        meetInfo.meetRemove();
+    }
 }

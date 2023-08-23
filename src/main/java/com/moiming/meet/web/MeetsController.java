@@ -50,9 +50,10 @@ public class MeetsController {
         //TODO: 입력받은 정보대로 모임 정보를 수정합니다.
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{meetSeq}")
     @Operation(summary = "모임 삭제", description = "모임을 해체합니다.")
-    public void meetRemove() {
-        //TODO: 정책수립 필요.
+    public void meetRemove(@PathParam("meetSeq") Long meetSeq) {
+        //TODO: 모임 가입자가 없으면 삭제를 할 것인지, 강제 삭제 할 것인지 정책 수립 필요
+        meetInfoService.remove(meetSeq);
     }
 }

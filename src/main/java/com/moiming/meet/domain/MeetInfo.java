@@ -1,5 +1,6 @@
 package com.moiming.meet.domain;
 
+import com.moiming.core.Flag;
 import com.moiming.core.jpa.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,11 @@ public class MeetInfo extends BaseEntity {
     @Column(name = "CREATE_DATE")
     private LocalDate createDate;
 
+    @Comment("사용 여부")
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "USE_YN", nullable = false, columnDefinition = "char(1)")
+    private Flag useYn;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,5 +54,12 @@ public class MeetInfo extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(meetSeq, name, description, createDate);
+    }
+
+    /**
+     * 모임 사용 여부를 N으로 바꿉니다.
+     */
+    public void meetRemove() {
+        this.useYn = Flag.N;
     }
 }
