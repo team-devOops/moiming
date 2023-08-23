@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDate;
+import java.util.Objects;
+
 @Entity
 @Getter
 @Builder
@@ -29,4 +32,21 @@ public class MeetInfo extends BaseEntity {
     @Comment("모임 설명")
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Comment("모임 생성일")
+    @Column(name = "CREATE_DATE")
+    private LocalDate createDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MeetInfo meetInfo = (MeetInfo) o;
+        return Objects.equals(meetSeq, meetInfo.meetSeq) && Objects.equals(name, meetInfo.name) && Objects.equals(description, meetInfo.description) && Objects.equals(createDate, meetInfo.createDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(meetSeq, name, description, createDate);
+    }
 }
