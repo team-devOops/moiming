@@ -90,6 +90,6 @@ class MeetCreateRequestTest {
         Set<ConstraintViolation<MeetCreateRequest>> validate = validator.validate(request);
 
         //then
-        Assertions.assertThat(validate.size()).isZero();
+        Assertions.assertThat(validate.size()).isNotZero();
     }
 }
