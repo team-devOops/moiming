@@ -1,12 +1,13 @@
 package com.moiming.meet.domain;
 
 import com.moiming.core.Flag;
+import com.moiming.core.jpa.BaseEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Comment;
 
 @Entity
 @Table(name = "MEET_JOIN_USER")
-public class MeetJoinUser {
+public class MeetJoinUser extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEET_JOIN_SEQ", nullable = false)

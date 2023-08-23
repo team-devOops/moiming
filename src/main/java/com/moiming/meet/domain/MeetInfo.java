@@ -1,5 +1,6 @@
 package com.moiming.meet.domain;
 
+import com.moiming.core.jpa.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,7 +13,7 @@ import org.hibernate.annotations.Comment;
 @Table(name = "MEET_INFO")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MeetInfo {
+public class MeetInfo extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEET_SEQ", nullable = false)
