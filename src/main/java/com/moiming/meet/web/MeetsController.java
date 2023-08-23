@@ -2,11 +2,10 @@ package com.moiming.meet.web;
 
 import com.moiming.meet.application.MeetInfoService;
 import com.moiming.meet.dto.MeetCreateRequest;
-import com.moiming.meet.domain.MeetInfo;
+import com.moiming.meet.dto.MeetInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +27,8 @@ public class MeetsController {
 
     @GetMapping("/{meetSeq}")
     @Operation(summary = "모임 상세 조회", description = "특정 모임을 상세 조회합니다.")
-    public void meetSelect(@PathParam("meetSeq") Long meetSeq) {
-        //TODO: meetSeq에 대한 모임 상세 정보를 조회합니다.
+    public MeetInfoResponse meetSelect(@PathVariable("meetSeq") Long meetSeq) {
+        return meetInfoService.findMeet(meetSeq);
     }
 
     @PostMapping

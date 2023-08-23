@@ -4,7 +4,10 @@ import com.moiming.meet.domain.MeetInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDate;
 
 import static com.moiming.meet.dto.MeetValidateMessage.NAME_IS_NOT_NULL;
 import static com.moiming.meet.dto.MeetValidateMessage.NAME_SIZE_INVALID;
@@ -27,6 +30,7 @@ public class MeetCreateRequest {
         return MeetInfo.builder()
                 .name(this.name)
                 .description(this.description)
+                .createDate(LocalDate.now())
                 .build();
     }
 }

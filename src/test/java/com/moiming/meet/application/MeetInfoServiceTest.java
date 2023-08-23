@@ -1,24 +1,25 @@
 package com.moiming.meet.application;
 
 import com.moiming.meet.domain.MeetInfo;
+import com.moiming.meet.dto.MeetInfoResponse;
 import com.moiming.meet.infra.MeetInfoRepository;
-import org.assertj.core.api.Assertions;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.eq;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class MeetInfoServiceTest {
@@ -27,6 +28,45 @@ class MeetInfoServiceTest {
 
     @Mock
     private MeetInfoRepository meetInfoRepository;
+
+    @Nested
+    @DisplayName("모임 단건 조회")
+    class findMeet {
+        @Test
+        @DisplayName("모임 단건 조회 성공")
+        void findSuccess() {
+            //given
+            MeetInfo meetInfo = MeetInfo.builder()
+                    .name("name")
+                    .description("description")
+                    .build();
+
+            given(meetInfoRepository.save(eq(meetInfo))).willReturn(meetInfo);
+            given(meetInfoRepository.findById(eq(meetInfo.getMeetSeq()))).willReturn(Optional.of(meetInfo));
+
+            Long meetId = service.register(meetInfo);
+
+            //when
+            MeetInfoResponse expectedResponse = service.findMeet(meetId);
+
+            //then
+            assertSoftly(softAssertions -> {
+                softAssertions.assertThat(meetInfo.getMeetSeq()).isEqualTo(expectedResponse.getMeetId());
+                softAssertions.assertThat(meetInfo.getName()).isEqualTo(expectedResponse.getName());
+                softAssertions.assertThat(meetInfo.getDescription()).isEqualTo(expectedResponse.getDescription());
+            });
+        }
+
+        @Test
+        @DisplayName("없는 모임 단건 조회시 실패")
+        void findFailed() {
+            //given
+            Long invalidMeetId = 99999L;
+
+            //when & then
+            assertThrows(NoResultException.class, () -> service.findMeet(invalidMeetId));
+        }
+    }
 
     @Nested
     @DisplayName("모임 생성")
@@ -40,13 +80,20 @@ class MeetInfoServiceTest {
                     .description("description")
                     .build();
 
-            given(meetInfoRepository.save(eq(meetInfo))).willReturn(meetInfo);
+            MeetInfo expectedMeetInfo = MeetInfo.builder()
+                    .meetSeq(1L)
+                    .name(meetInfo.getName())
+                    .description(meetInfo.getDescription())
+                    .createDate(LocalDate.now())
+                    .build();
+
+            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
 
             //when
-            MeetInfo expectedResponse = meetInfoRepository.save(meetInfo);
+            Long response = service.register(meetInfo);
 
             //then
-            assertThat(meetInfo).isEqualTo(expectedResponse);
+            assertThat(response).isNotZero();
         }
     }
 }
