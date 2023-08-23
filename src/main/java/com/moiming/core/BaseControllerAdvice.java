@@ -1,8 +1,6 @@
 package com.moiming.core;
 
 import com.moiming.core.exception.CustomNoResultException;
-import com.moiming.core.exception.MoimingException;
-import jakarta.persistence.NoResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,13 +13,6 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class BaseControllerAdvice {
-
-    @ExceptionHandler(MoimingException.class)
-    public ResponseEntity<String> moimingExceptionHandler(MoimingException e) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
-    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> exceptionHandler(Exception e) {
