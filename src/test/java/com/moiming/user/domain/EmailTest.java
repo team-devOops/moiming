@@ -1,6 +1,7 @@
 package com.moiming.user.domain;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -43,5 +44,19 @@ class EmailTest {
             softly.assertThat(email.getDomain()).isEqualTo("gmail.com");
             softly.assertThat(email.getValue()).isEqualTo(emailString);
         });
+    }
+
+    @Test
+    @DisplayName("이메일이 같으면 같은 객체이다.")
+    void equalsEmail() {
+        // given
+        String emailString = "sadsa@gmail.com";
+
+        // when
+        Email email1 = Email.of(emailString);
+        Email email2 = Email.of(emailString);
+
+        // then
+        assertThat(email1).isEqualTo(email2);
     }
 }
