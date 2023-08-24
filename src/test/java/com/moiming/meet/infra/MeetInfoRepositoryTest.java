@@ -29,7 +29,7 @@ class MeetInfoRepositoryTest {
                 .createDate(LocalDate.now())
                 .build());
 
-        Long meetId = meetInfo.getMeetSeq();
+        Long meetId = meetInfo.getMeetId();
 
         //when
         MeetInfo response = repository.findById(meetId).get();

@@ -30,6 +30,17 @@ public class MeetInfoService {
     @Transactional
     public Long register(MeetInfo request) {
         return repository.save(request)
-                .getMeetSeq();
+                .getMeetId();
+    }
+
+    /**
+     * 모임을 삭제합니다.
+     */
+    @Transactional
+    public void remove(Long meetId) {
+        MeetInfo meetInfo = repository.findById(meetId)
+                .orElseThrow(CustomNoResultException::new);
+
+        meetInfo.meetRemove();
     }
 }

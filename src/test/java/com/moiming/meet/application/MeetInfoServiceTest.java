@@ -1,9 +1,11 @@
 package com.moiming.meet.application;
 
+import com.moiming.core.Flag;
 import com.moiming.meet.domain.MeetInfo;
 import com.moiming.meet.dto.MeetInfoResponse;
 import com.moiming.meet.infra.MeetInfoRepository;
 import jakarta.persistence.NoResultException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,7 +44,7 @@ class MeetInfoServiceTest {
                     .build();
 
             given(meetInfoRepository.save(eq(meetInfo))).willReturn(meetInfo);
-            given(meetInfoRepository.findById(eq(meetInfo.getMeetSeq()))).willReturn(Optional.of(meetInfo));
+            given(meetInfoRepository.findById(eq(meetInfo.getMeetId()))).willReturn(Optional.of(meetInfo));
 
             Long meetId = service.register(meetInfo);
 
@@ -51,7 +53,7 @@ class MeetInfoServiceTest {
 
             //then
             assertSoftly(softAssertions -> {
-                softAssertions.assertThat(meetInfo.getMeetSeq()).isEqualTo(expectedResponse.getMeetId());
+                softAssertions.assertThat(meetInfo.getMeetId()).isEqualTo(expectedResponse.getMeetId());
                 softAssertions.assertThat(meetInfo.getName()).isEqualTo(expectedResponse.getName());
                 softAssertions.assertThat(meetInfo.getDescription()).isEqualTo(expectedResponse.getDescription());
             });
@@ -80,14 +82,20 @@ class MeetInfoServiceTest {
                     .description("description")
                     .build();
 
-            MeetInfo expectedMeetInfo = MeetInfo.builder()
-                    .meetSeq(1L)
-                    .name(meetInfo.getName())
-                    .description(meetInfo.getDescription())
-                    .createDate(LocalDate.now())
-                    .build();
-
-            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
+            모임_생성_성공(meetInfo);
+//            MeetInfo meetInfo = MeetInfo.builder()
+//                    .name("name")
+//                    .description("description")
+//                    .build();
+//
+//            MeetInfo expectedMeetInfo = MeetInfo.builder()
+//                    .meetId(1L)
+//                    .name(meetInfo.getName())
+//                    .description(meetInfo.getDescription())
+//                    .createDate(LocalDate.now())
+//                    .build();
+//
+//            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
 
             //when
             Long response = service.register(meetInfo);
@@ -95,5 +103,45 @@ class MeetInfoServiceTest {
             //then
             assertThat(response).isNotZero();
         }
+    }
+
+    @Nested
+    @DisplayName("모임 삭제")
+    class meetRemove {
+        @Test
+        @DisplayName("모임 삭제 성공")
+        void removeSuccess() {
+            //given
+            MeetInfo meetInfo = MeetInfo.builder()
+                    .name("name")
+                    .description("description")
+                    .build();
+
+            MeetInfo expectedMeetInfo = MeetInfo.builder()
+                    .meetId(1L)
+                    .name(meetInfo.getName())
+                    .description(meetInfo.getDescription())
+                    .createDate(LocalDate.now())
+                    .build();
+
+            given(meetInfoRepository.findById(eq(expectedMeetInfo.getMeetId()))).willReturn(Optional.of(expectedMeetInfo));
+
+            //when
+            service.remove(expectedMeetInfo.getMeetId());
+
+            //then
+            Assertions.assertThat(expectedMeetInfo.getUseYn()).isEqualTo(Flag.N);
+        }
+    }
+
+    private void 모임_생성_성공(MeetInfo meetInfo) {
+        MeetInfo expectedMeetInfo = MeetInfo.builder()
+                .meetId(1L)
+                .name(meetInfo.getName())
+                .description(meetInfo.getDescription())
+                .createDate(LocalDate.now())
+                .build();
+
+        given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
     }
 }

@@ -14,7 +14,7 @@ public class MeetJoinUser extends BaseEntity {
     private Long meetSeq;
 
     @ManyToOne
-    @JoinColumn(name = "MEET_SEQ")
+    @JoinColumn(name = "MEET_ID")
     @Comment("모임 KEY")
     private MeetInfo meetInfo;
 

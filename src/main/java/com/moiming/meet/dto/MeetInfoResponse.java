@@ -1,5 +1,6 @@
 package com.moiming.meet.dto;
 
+import com.moiming.core.Flag;
 import com.moiming.meet.domain.MeetInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -26,12 +27,16 @@ public class MeetInfoResponse {
     @Schema(description = "모임 생성일", example = "2023-08-23")
     private LocalDate createDate;
 
+    @Schema(description = "사용 여부", example = "Y")
+    private Flag useYn;
+
     public static MeetInfoResponse fromEntity(MeetInfo meetInfo) {
         return MeetInfoResponse.builder()
-                .meetId(meetInfo.getMeetSeq())
+                .meetId(meetInfo.getMeetId())
                 .name(meetInfo.getName())
                 .description(meetInfo.getDescription())
                 .createDate(meetInfo.getCreateDate())
+                .useYn(meetInfo.getUseYn())
                 .build();
     }
 }
