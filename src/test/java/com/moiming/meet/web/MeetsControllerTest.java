@@ -1,7 +1,7 @@
 package com.moiming.meet.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moiming.meet.domain.MeetInfo;
 import com.moiming.meet.dto.MeetCreateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +16,7 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ExtendWith(SpringExtension.class)
@@ -59,13 +61,7 @@ class MeetsControllerTest {
         @DisplayName("모임 단건 조회 성공")
         void findMeetSuccess() throws Exception {
             //given
-            String param = 모임_생성_파라미터();
-
-            MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(baseUrl)
-                            .content(param)
-                            .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(MockMvcResultMatchers.status().isCreated())
-                    .andReturn();
+            MvcResult mvcResult = 모임_생성_성공();
 
             //when
             mockMvc.perform(MockMvcRequestBuilders.get(mvcResult.getResponse().getRedirectedUrl()))
@@ -91,14 +87,11 @@ class MeetsControllerTest {
         @Test
         @DisplayName("모임 저장 성공")
         void meetCreateSuccess() throws Exception {
-            //given
-            String param = 모임_생성_파라미터();
+            //given & when
+            MvcResult mvcResult = 모임_생성_성공();
 
-            //when & then
-            mockMvc.perform(MockMvcRequestBuilders.post(baseUrl)
-                            .content(param)
-                            .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(MockMvcResultMatchers.status().isCreated());
+            //then
+            assertThat(mvcResult.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
         }
 
         @ParameterizedTest
@@ -122,13 +115,53 @@ class MeetsControllerTest {
         }
     }
 
-    private String 모임_생성_파라미터() throws JsonProcessingException {
+    @Nested
+    @DisplayName("모임 삭제")
+    class meetRemove {
+        @Test
+        @DisplayName("모임 삭제 성공")
+        void meetRemoveSuccess() throws Exception {
+            //given
+            MvcResult mvcResult = 모임_생성_성공();
+
+            MvcResult mvcSelectResponse = mockMvc.perform(MockMvcRequestBuilders.get(mvcResult.getResponse().getRedirectedUrl()))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andReturn();
+
+            MeetInfo meetInfo = 응답값을_객체에_매핑함(mvcSelectResponse, MeetInfo.class);
+
+            //when & then
+            mockMvc.perform(MockMvcRequestBuilders.delete("/meets/{meetId}", meetInfo.getMeetId()))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andReturn();
+        }
+
+        @Test
+        @DisplayName("모임 삭제 실패")
+        void meetRemoveFail() throws Exception {
+            //given
+            final Long invalidMeetId = -1L;
+
+            //when & then
+            mockMvc.perform(MockMvcRequestBuilders.delete("/meets/{meetId}", invalidMeetId))
+                    .andExpect(MockMvcResultMatchers.status().isNotFound())
+                    .andReturn();
+        }
+    }
+
+    private MvcResult 모임_생성_성공() throws Exception {
         final MeetCreateRequest request = MeetCreateRequest.builder()
                 .name("name")
                 .description("description")
                 .build();
 
-        return objectMapper.writeValueAsString(request);
+        String param = objectMapper.writeValueAsString(request);
+
+        return mockMvc.perform(MockMvcRequestBuilders.post(baseUrl)
+                        .content(param)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andReturn();
     }
 
     private <T> T 응답값을_객체에_매핑함(MvcResult mvcResult, Class<T> type) throws Exception {

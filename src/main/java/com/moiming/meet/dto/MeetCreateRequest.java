@@ -1,5 +1,6 @@
 package com.moiming.meet.dto;
 
+import com.moiming.core.Flag;
 import com.moiming.meet.domain.MeetInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,6 +31,7 @@ public class MeetCreateRequest {
                 .name(this.name)
                 .description(this.description)
                 .createDate(LocalDate.now())
+                .useYn(Flag.Y)
                 .build();
     }
 }
