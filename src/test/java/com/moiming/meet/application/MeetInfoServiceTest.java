@@ -1,9 +1,11 @@
 package com.moiming.meet.application;
 
+import com.moiming.core.Flag;
 import com.moiming.meet.domain.MeetInfo;
 import com.moiming.meet.dto.MeetInfoResponse;
 import com.moiming.meet.infra.MeetInfoRepository;
 import jakarta.persistence.NoResultException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -115,13 +117,20 @@ class MeetInfoServiceTest {
                     .description("description")
                     .build();
 
-            모임_생성_성공(meetInfo);
+            MeetInfo expectedMeetInfo = MeetInfo.builder()
+                    .meetSeq(1L)
+                    .name(meetInfo.getName())
+                    .description(meetInfo.getDescription())
+                    .createDate(LocalDate.now())
+                    .build();
+
+            given(meetInfoRepository.findById(eq(expectedMeetInfo.getMeetSeq()))).willReturn(Optional.of(expectedMeetInfo));
 
             //when
-            meetInfo.meetRemove();
+            service.remove(expectedMeetInfo.getMeetSeq());
 
             //then
-
+            Assertions.assertThat(expectedMeetInfo.getUseYn()).isEqualTo(Flag.N);
         }
     }
 
