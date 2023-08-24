@@ -44,7 +44,7 @@ class MeetInfoServiceTest {
                     .build();
 
             given(meetInfoRepository.save(eq(meetInfo))).willReturn(meetInfo);
-            given(meetInfoRepository.findById(eq(meetInfo.getMeetSeq()))).willReturn(Optional.of(meetInfo));
+            given(meetInfoRepository.findById(eq(meetInfo.getMeetId()))).willReturn(Optional.of(meetInfo));
 
             Long meetId = service.register(meetInfo);
 
@@ -53,7 +53,7 @@ class MeetInfoServiceTest {
 
             //then
             assertSoftly(softAssertions -> {
-                softAssertions.assertThat(meetInfo.getMeetSeq()).isEqualTo(expectedResponse.getMeetId());
+                softAssertions.assertThat(meetInfo.getMeetId()).isEqualTo(expectedResponse.getMeetId());
                 softAssertions.assertThat(meetInfo.getName()).isEqualTo(expectedResponse.getName());
                 softAssertions.assertThat(meetInfo.getDescription()).isEqualTo(expectedResponse.getDescription());
             });
@@ -89,7 +89,7 @@ class MeetInfoServiceTest {
 //                    .build();
 //
 //            MeetInfo expectedMeetInfo = MeetInfo.builder()
-//                    .meetSeq(1L)
+//                    .meetId(1L)
 //                    .name(meetInfo.getName())
 //                    .description(meetInfo.getDescription())
 //                    .createDate(LocalDate.now())
@@ -118,16 +118,16 @@ class MeetInfoServiceTest {
                     .build();
 
             MeetInfo expectedMeetInfo = MeetInfo.builder()
-                    .meetSeq(1L)
+                    .meetId(1L)
                     .name(meetInfo.getName())
                     .description(meetInfo.getDescription())
                     .createDate(LocalDate.now())
                     .build();
 
-            given(meetInfoRepository.findById(eq(expectedMeetInfo.getMeetSeq()))).willReturn(Optional.of(expectedMeetInfo));
+            given(meetInfoRepository.findById(eq(expectedMeetInfo.getMeetId()))).willReturn(Optional.of(expectedMeetInfo));
 
             //when
-            service.remove(expectedMeetInfo.getMeetSeq());
+            service.remove(expectedMeetInfo.getMeetId());
 
             //then
             Assertions.assertThat(expectedMeetInfo.getUseYn()).isEqualTo(Flag.N);
@@ -136,7 +136,7 @@ class MeetInfoServiceTest {
 
     private void 모임_생성_성공(MeetInfo meetInfo) {
         MeetInfo expectedMeetInfo = MeetInfo.builder()
-                .meetSeq(1L)
+                .meetId(1L)
                 .name(meetInfo.getName())
                 .description(meetInfo.getDescription())
                 .createDate(LocalDate.now())

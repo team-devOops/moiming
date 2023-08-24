@@ -20,8 +20,8 @@ import java.util.Objects;
 public class MeetInfo extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "MEET_SEQ", nullable = false)
-    private Long meetSeq;
+    @Column(name = "MEET_ID", nullable = false)
+    private Long meetId;
 
     @Size(max = 64)
     @NotNull
@@ -48,12 +48,12 @@ public class MeetInfo extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MeetInfo meetInfo = (MeetInfo) o;
-        return Objects.equals(meetSeq, meetInfo.meetSeq) && Objects.equals(name, meetInfo.name) && Objects.equals(description, meetInfo.description) && Objects.equals(createDate, meetInfo.createDate);
+        return Objects.equals(meetId, meetInfo.meetId) && Objects.equals(name, meetInfo.name) && Objects.equals(description, meetInfo.description) && Objects.equals(createDate, meetInfo.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(meetSeq, name, description, createDate);
+        return Objects.hash(meetId, name, description, createDate);
     }
 
     /**

@@ -12,7 +12,7 @@ class MeetInfoTest {
     void meetRemove() {
         //given
         MeetInfo meetInfo = MeetInfo.builder()
-                .meetSeq(1L)
+                .meetId(1L)
                 .name("name")
                 .description("description")
                 .useYn(Flag.Y)

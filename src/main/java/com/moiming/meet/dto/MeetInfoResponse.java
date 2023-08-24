@@ -28,7 +28,7 @@ public class MeetInfoResponse {
 
     public static MeetInfoResponse fromEntity(MeetInfo meetInfo) {
         return MeetInfoResponse.builder()
-                .meetId(meetInfo.getMeetSeq())
+                .meetId(meetInfo.getMeetId())
                 .name(meetInfo.getName())
                 .description(meetInfo.getDescription())
                 .createDate(meetInfo.getCreateDate())

@@ -30,7 +30,7 @@ public class MeetInfoService {
     @Transactional
     public Long register(MeetInfo request) {
         return repository.save(request)
-                .getMeetSeq();
+                .getMeetId();
     }
 
     /**
