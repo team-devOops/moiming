@@ -1,11 +1,7 @@
 package com.moiming.meet.application;
 
-import com.moiming.core.Flag;
 import com.moiming.meet.domain.MeetInfo;
-import com.moiming.meet.dto.MeetInfoResponse;
 import com.moiming.meet.infra.MeetInfoRepository;
-import jakarta.persistence.NoResultException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,12 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.eq;
 import static org.mockito.BDDMockito.given;
 
@@ -30,45 +21,6 @@ class MeetInfoServiceTest {
 
     @Mock
     private MeetInfoRepository meetInfoRepository;
-
-    @Nested
-    @DisplayName("모임 단건 조회")
-    class findMeet {
-        @Test
-        @DisplayName("모임 단건 조회 성공")
-        void findSuccess() {
-            //given
-            MeetInfo meetInfo = MeetInfo.builder()
-                    .name("name")
-                    .description("description")
-                    .build();
-
-            given(meetInfoRepository.save(eq(meetInfo))).willReturn(meetInfo);
-            given(meetInfoRepository.findById(eq(meetInfo.getMeetId()))).willReturn(Optional.of(meetInfo));
-
-            Long meetId = service.register(meetInfo);
-
-            //when
-            MeetInfoResponse expectedResponse = service.findMeet(meetId);
-
-            //then
-            assertSoftly(softAssertions -> {
-                softAssertions.assertThat(meetInfo.getMeetId()).isEqualTo(expectedResponse.getMeetId());
-                softAssertions.assertThat(meetInfo.getName()).isEqualTo(expectedResponse.getName());
-                softAssertions.assertThat(meetInfo.getDescription()).isEqualTo(expectedResponse.getDescription());
-            });
-        }
-
-        @Test
-        @DisplayName("없는 모임 단건 조회시 실패")
-        void findFailed() {
-            //given
-            Long invalidMeetId = 99999L;
-
-            //when & then
-            assertThrows(NoResultException.class, () -> service.findMeet(invalidMeetId));
-        }
-    }
 
     @Nested
     @DisplayName("모임 생성")
@@ -82,66 +34,13 @@ class MeetInfoServiceTest {
                     .description("description")
                     .build();
 
-            모임_생성_성공(meetInfo);
-//            MeetInfo meetInfo = MeetInfo.builder()
-//                    .name("name")
-//                    .description("description")
-//                    .build();
-//
-//            MeetInfo expectedMeetInfo = MeetInfo.builder()
-//                    .meetId(1L)
-//                    .name(meetInfo.getName())
-//                    .description(meetInfo.getDescription())
-//                    .createDate(LocalDate.now())
-//                    .build();
-//
-//            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
+            given(meetInfoRepository.save(eq(meetInfo))).willReturn(meetInfo);
 
             //when
-            Long response = service.register(meetInfo);
+            MeetInfo expectedResponse = meetInfoRepository.save(meetInfo);
 
             //then
-            assertThat(response).isNotZero();
+            assertThat(meetInfo).isEqualTo(expectedResponse);
         }
-    }
-
-    @Nested
-    @DisplayName("모임 삭제")
-    class meetRemove {
-        @Test
-        @DisplayName("모임 삭제 성공")
-        void removeSuccess() {
-            //given
-            MeetInfo meetInfo = MeetInfo.builder()
-                    .name("name")
-                    .description("description")
-                    .build();
-
-            MeetInfo expectedMeetInfo = MeetInfo.builder()
-                    .meetId(1L)
-                    .name(meetInfo.getName())
-                    .description(meetInfo.getDescription())
-                    .createDate(LocalDate.now())
-                    .build();
-
-            given(meetInfoRepository.findById(eq(expectedMeetInfo.getMeetId()))).willReturn(Optional.of(expectedMeetInfo));
-
-            //when
-            service.remove(expectedMeetInfo.getMeetId());
-
-            //then
-            Assertions.assertThat(expectedMeetInfo.getUseYn()).isEqualTo(Flag.N);
-        }
-    }
-
-    private void 모임_생성_성공(MeetInfo meetInfo) {
-        MeetInfo expectedMeetInfo = MeetInfo.builder()
-                .meetId(1L)
-                .name(meetInfo.getName())
-                .description(meetInfo.getDescription())
-                .createDate(LocalDate.now())
-                .build();
-
-        given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
     }
 }

@@ -3,15 +3,20 @@ package com.moiming.meet.domain;
 import com.moiming.core.Flag;
 import com.moiming.core.jpa.BaseEntity;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "MEET_JOIN_USER")
 public class MeetJoinUser extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "MEET_JOIN_SEQ", nullable = false)
-    private Long meetSeq;
+    @Column(name = "MEET_JOIN_ID", nullable = false)
+    private Long meetJoinId;
 
     @ManyToOne
     @JoinColumn(name = "MEET_ID")
@@ -27,11 +32,12 @@ public class MeetJoinUser extends BaseEntity {
     @Column(name = "NICKNAME", nullable = false, columnDefinition = "varchar(16)")
     private String nickname;
 
+    @Embedded
     @Comment("등급")
     @Column(name = "LEVEL", nullable = false, columnDefinition = "varchar(16)")
-    private String level;
+    private Level level;
 
-    @Comment("탈퇴 여부")
+    @Comment("가입 여부")
     @Enumerated(value = EnumType.STRING)
     @Column(name = "USE_YN", nullable = false, columnDefinition = "char(1)")
     private Flag useYn;
