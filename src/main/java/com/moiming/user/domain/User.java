@@ -39,7 +39,7 @@ public class User {
     @Embedded
     @NotNull
     @AttributeOverrides(
-        @AttributeOverride(name = "value", column = @Column(name = "EMAIL", unique = true, nullable = false, columnDefinition = "VARCHAR(50)"))
+            @AttributeOverride(name = "value", column = @Column(name = "EMAIL", unique = true, nullable = false, columnDefinition = "VARCHAR(50)"))
     )
     @Comment("유저 이메일")
     private Email email;
@@ -74,12 +74,13 @@ public class User {
     private String authYn;
 
     @Builder
-    private User(String id, Email email, String name, String password, LocalDate birthDate) {
+    private User(Long seq, String id, Email email, String name, String password, LocalDate birthDate) {
         validateId(id);
         validatePassword(password);
         validateName(name);
         validateBirthDate(birthDate);
 
+        this.seq = seq;
         this.id = id;
         this.email = email;
         this.name = name;
