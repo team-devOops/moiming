@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -72,11 +73,11 @@ public class User {
     @Comment("이메일 인증 여부")
     private String authYn;
 
+    @Builder
     private User(String id, Email email, String name, String password, LocalDate birthDate) {
         validateId(id);
         validatePassword(password);
         validateName(name);
-        validateEmail(email);
         validateBirthDate(birthDate);
 
         this.id = id;
@@ -86,14 +87,6 @@ public class User {
         this.birthDate = birthDate;
         this.useYn = "Y";
         this.authYn = "N";
-    }
-
-    public static User createUser(String id, Email email, String name, String password, LocalDate birthDate) {
-        return new User(id, email, name, password, birthDate);
-    }
-
-    public static User createUser(String id, String email, String name, String password, LocalDate birthDate) {
-        return new User(id, Email.of(email), name, password, birthDate);
     }
 
     private void validateId(String id) {
@@ -117,12 +110,6 @@ public class User {
     private void validateBirthDate(LocalDate birthDate) {
         if (birthDate == null) {
             throw new IllegalArgumentException("생일이 비어있습니다.");
-        }
-    }
-
-    private void validateEmail(Email email) {
-        if (email == null) {
-            throw new IllegalArgumentException("이메일이 비어있습니다.");
         }
     }
 }

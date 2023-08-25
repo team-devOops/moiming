@@ -23,8 +23,14 @@ class UserTest {
     @NullAndEmptySource
     @DisplayName("유저의 이름은 비어 있으면 안된다")
     void noNameUser(String name) {
-        assertThatIllegalArgumentException().isThrownBy(()
-                -> User.createUser("kbh052", collectEmail, name, "1234", LocalDate.of(1995, 8, 2)));
+        assertThatIllegalArgumentException().isThrownBy(
+                () -> User.builder().birthDate(LocalDate.of(1995, 8, 2))
+                        .email(collectEmail)
+                        .id("kbh052")
+                        .name(name)
+                        .password("1234")
+                        .build());
+
 
     }
 
@@ -32,8 +38,13 @@ class UserTest {
     @NullAndEmptySource
     @DisplayName("유저의 아이디는 비어 있으면 안된다")
     void noIdUser(String id) {
-        assertThatIllegalArgumentException().isThrownBy(()
-                -> User.createUser(id, collectEmail, "name", "1234", LocalDate.of(1995, 8, 2)));
+        assertThatIllegalArgumentException().isThrownBy(
+                () -> User.builder().birthDate(LocalDate.of(1995, 8, 2))
+                        .email(collectEmail)
+                        .id(id)
+                        .name("name")
+                        .password("1234")
+                        .build());
     }
 
     @ParameterizedTest
@@ -41,20 +52,23 @@ class UserTest {
     @DisplayName("유저의 비밀번호는 비어 있으면 안된다")
     void noPasswordUser(String password) {
         assertThatIllegalArgumentException().isThrownBy(()
-                -> User.createUser("kbh052", collectEmail, "name", password, LocalDate.of(1995, 8, 2)));
+                -> User.builder().birthDate(LocalDate.of(1995, 8, 2))
+                .email(collectEmail)
+                .id("kbh052")
+                .name("name")
+                .password(password)
+                .build());
     }
 
     @Test
     @DisplayName("유저의 생일은 비어 있으면 안된다")
     void noBirthDateUser() {
         assertThatIllegalArgumentException().isThrownBy(()
-                -> User.createUser("kbh052", collectEmail, "name", "1234", null));
-    }
-
-    @Test
-    @DisplayName("유저의 이메일은 비어 있으면 안된다")
-    void noEmailUser() {
-        assertThatIllegalArgumentException().isThrownBy(()
-                -> User.createUser("kbh052", (Email) null, "name", "1234", LocalDate.now()));
+                -> User.builder().birthDate(null)
+                .email(collectEmail)
+                .id("kbh052")
+                .name("name")
+                .password("1234")
+                .build());
     }
 }
