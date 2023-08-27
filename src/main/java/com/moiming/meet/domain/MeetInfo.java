@@ -19,6 +19,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MeetInfo extends BaseEntity {
     @Id
+    @Comment("모임 ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEET_ID", nullable = false)
     private Long meetId;

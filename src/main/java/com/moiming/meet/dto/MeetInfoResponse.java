@@ -10,8 +10,6 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(description = "모임 단건 조회 응답 DTO")
 public class MeetInfoResponse {
     @Schema(description = "모임 ID", example = "1")

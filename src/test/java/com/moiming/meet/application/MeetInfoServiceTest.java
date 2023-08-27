@@ -5,7 +5,6 @@ import com.moiming.meet.domain.MeetInfo;
 import com.moiming.meet.dto.MeetInfoResponse;
 import com.moiming.meet.infra.MeetInfoRepository;
 import jakarta.persistence.NoResultException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -82,20 +81,14 @@ class MeetInfoServiceTest {
                     .description("description")
                     .build();
 
-            모임_생성_성공(meetInfo);
-//            MeetInfo meetInfo = MeetInfo.builder()
-//                    .name("name")
-//                    .description("description")
-//                    .build();
-//
-//            MeetInfo expectedMeetInfo = MeetInfo.builder()
-//                    .meetId(1L)
-//                    .name(meetInfo.getName())
-//                    .description(meetInfo.getDescription())
-//                    .createDate(LocalDate.now())
-//                    .build();
-//
-//            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
+            MeetInfo expectedMeetInfo = MeetInfo.builder()
+                    .meetId(1L)
+                    .name(meetInfo.getName())
+                    .description(meetInfo.getDescription())
+                    .createDate(LocalDate.now())
+                    .build();
+
+            given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
 
             //when
             Long response = service.register(meetInfo);
@@ -130,18 +123,7 @@ class MeetInfoServiceTest {
             service.remove(expectedMeetInfo.getMeetId());
 
             //then
-            Assertions.assertThat(expectedMeetInfo.getUseYn()).isEqualTo(Flag.N);
+            assertThat(expectedMeetInfo.getUseYn()).isEqualTo(Flag.N);
         }
-    }
-
-    private void 모임_생성_성공(MeetInfo meetInfo) {
-        MeetInfo expectedMeetInfo = MeetInfo.builder()
-                .meetId(1L)
-                .name(meetInfo.getName())
-                .description(meetInfo.getDescription())
-                .createDate(LocalDate.now())
-                .build();
-
-        given(meetInfoRepository.save(eq(meetInfo))).willReturn(expectedMeetInfo);
     }
 }
