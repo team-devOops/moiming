@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Builder
@@ -41,4 +43,8 @@ public class MeetJoinUser extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "USE_YN", nullable = false, columnDefinition = "char(1)")
     private Flag useYn;
+
+    @Comment("모임 가입일")
+    @Column(name = "JOIN_DATE")
+    private LocalDate joinDate;
 }

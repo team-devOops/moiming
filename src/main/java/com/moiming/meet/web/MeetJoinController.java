@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/meets/join")
@@ -16,10 +18,17 @@ public class MeetJoinController {
 
     private final MeetJoinService meetJoinService;
 
-    @GetMapping
+    @PostMapping
     @Operation(summary = "모임 가입", description = "모임에 가입합니다.")
-    public void meetJoin(@RequestBody @Valid MeetJoinRequest request) {
+    public ResponseEntity<Void> meetJoin(@RequestBody @Valid MeetJoinRequest request) {
         //TODO: 1. 모임장의 수락 후 가입하는 별도 절차도 필요
-        meetJoinService.register(request);
+        Long response = meetJoinService.register(request);
+
+        return ResponseEntity.created(ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{meetJoinId}")
+                        .buildAndExpand(response)
+                        .toUri())
+                .build();
     }
 }

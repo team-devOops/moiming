@@ -1,5 +1,6 @@
 package com.moiming.meet.application;
 
+import com.moiming.core.exception.CustomNoResultException;
 import com.moiming.meet.domain.MeetInfo;
 import com.moiming.meet.domain.MeetJoinUser;
 import com.moiming.meet.dto.MeetJoinRequest;
@@ -21,10 +22,11 @@ public class MeetJoinService {
      * 모임에 가입합니다.
      */
     @Transactional
-    public void register(MeetJoinRequest request) {
+    public Long register(MeetJoinRequest request) {
         MeetInfo meetInfo = meetInfoRepository.findById(request.getMeetId())
-                .orElseThrow(NoResultException::new);
+                .orElseThrow(CustomNoResultException::new);
 
-        meetJoinUserRepository.save(request.toEntity(meetInfo));
+        return meetJoinUserRepository.save(request.toEntity(meetInfo))
+                .getMeetJoinId();
     }
 }

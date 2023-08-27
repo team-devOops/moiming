@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 
@@ -90,6 +91,6 @@ class MeetCreateRequestTest {
         Set<ConstraintViolation<MeetCreateRequest>> validate = validator.validate(request);
 
         //then
-        Assertions.assertThat(validate.size()).isZero();
+        assertThat(validate.size()).isZero();
     }
 }
