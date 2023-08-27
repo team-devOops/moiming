@@ -15,8 +15,6 @@ import static com.moiming.meet.dto.MeetValidateMessage.*;
 
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Schema(description = "모임 가입 요청 DTO")
 public class MeetJoinRequest {
     @Min(value = 1, message = MEET_ID_IS_NOT_NULL)
