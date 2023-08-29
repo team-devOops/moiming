@@ -3,7 +3,9 @@ package com.moiming.meet.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Arrays;
+import lombok.Getter;
 
+@Getter
 public enum Level {
     ADMIN,
     SUB_ADMIN,

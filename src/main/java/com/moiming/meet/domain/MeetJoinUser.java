@@ -27,15 +27,15 @@ public class MeetJoinUser extends BaseEntity {
 
     //TODO: 회원 엔티티 생기면 수정 필요
     @Comment("회원 KEY")
-    @Column(name = "DESCRIPTION")
+    @Column(name = "USER_SEQ")
     private Long userSeq;
 
     @Comment("닉네임")
     @Column(name = "NICKNAME", nullable = false, columnDefinition = "varchar(16)")
     private String nickname;
 
-    @Embedded
     @Comment("등급")
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "LEVEL", nullable = false, columnDefinition = "varchar(16)")
     private Level level;
 

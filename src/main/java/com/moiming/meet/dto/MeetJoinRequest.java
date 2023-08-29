@@ -9,7 +9,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import static com.moiming.meet.dto.MeetValidateMessage.*;
 
@@ -43,6 +45,7 @@ public class MeetJoinRequest {
                 .nickname(nickname)
                 .level(level)
                 .useYn(Flag.Y)
+                .joinDate(LocalDate.now())
                 .build();
     }
 }
