@@ -47,4 +47,11 @@ public class MeetJoinUser extends BaseEntity {
     @Comment("모임 가입일")
     @Column(name = "JOIN_DATE")
     private LocalDate joinDate;
+
+    /**
+     * 모임 탈퇴시 가입 여부 'N' 처리
+     */
+    public void leave() {
+        useYn = Flag.N;
+    }
 }

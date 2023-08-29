@@ -3,6 +3,7 @@ package com.moiming.meet.application;
 import com.moiming.core.exception.CustomNoResultException;
 import com.moiming.meet.domain.MeetInfo;
 import com.moiming.meet.domain.MeetJoinUser;
+import com.moiming.meet.dto.MeetJoinLeaveRequest;
 import com.moiming.meet.dto.MeetJoinRequest;
 import com.moiming.meet.dto.MeetJoinResponse;
 import com.moiming.meet.infra.MeetInfoRepository;
@@ -38,5 +39,10 @@ public class MeetJoinService {
 
         return meetJoinUserRepository.save(request.toEntity(meetInfo))
                 .getMeetJoinId();
+    }
+
+    @Transactional
+    public void leave(MeetJoinLeaveRequest request) {
+
     }
 }
