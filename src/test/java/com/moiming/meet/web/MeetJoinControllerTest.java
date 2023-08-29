@@ -60,7 +60,7 @@ class MeetJoinControllerTest {
     class meetSelect {
         @ParameterizedTest
         @ValueSource(strings = {"-1", "ㄱㄴㄷ", "ABCDE"})
-        @DisplayName("잘못된 형식의 파라미터 입력시 실패")
+        @DisplayName("잘못된 형식의 meetJoinId 파라미터 입력시 실패")
         void invalidMeetJoinId(String invalidMeetJoinId) throws Exception {
             //when & then
             mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/{meetJoinId}", invalidMeetJoinId))
