@@ -4,6 +4,8 @@ import com.moiming.core.exception.CustomNoResultException;
 import com.moiming.core.exception.DuplicationException;
 import java.util.List;
 import java.util.stream.Collectors;
+import jakarta.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -32,6 +34,20 @@ public class BaseControllerAdvice {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(responses);
+    }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<List<InvalidResponse>> constraintViolationExceptionHandler(ConstraintViolationException e) {
+
+        List<InvalidResponse> responses = new ArrayList<>();
+
+        e.getConstraintViolations().forEach(fieldError -> {
+            responses.add(new InvalidResponse(fieldError.getPropertyPath().toString(), fieldError.getMessage(), fieldError.getInvalidValue()));
+        });
+
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(responses);
     }
 
     @ExceptionHandler(CustomNoResultException.class)
