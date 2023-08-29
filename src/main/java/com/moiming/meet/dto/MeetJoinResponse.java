@@ -44,25 +44,6 @@ public class MeetJoinResponse {
     @Schema(description = "모임 가입일", example = "2023-03-02")
     private LocalDate joinDate;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        MeetJoinResponse that = (MeetJoinResponse) o;
-        return Objects.equals(meetJoinId, that.meetJoinId) && Objects.equals(userSeq, that.userSeq)
-            && Objects.equals(meetInfo, that.meetInfo) && Objects.equals(nickname, that.nickname)
-            && level == that.level && useYn == that.useYn && Objects.equals(joinDate, that.joinDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(meetJoinId, userSeq, meetInfo, nickname, level, useYn, joinDate);
-    }
-
     public static MeetJoinResponse fromEntity(MeetJoinUser meetJoinUser) {
         return MeetJoinResponse.builder()
                 .meetJoinId(meetJoinUser.getMeetJoinId())
@@ -73,5 +54,24 @@ public class MeetJoinResponse {
                 .useYn(meetJoinUser.getUseYn())
                 .joinDate(meetJoinUser.getJoinDate())
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MeetJoinResponse that = (MeetJoinResponse) o;
+        return Objects.equals(meetJoinId, that.meetJoinId) && Objects.equals(userSeq, that.userSeq)
+                && Objects.equals(meetInfo, that.meetInfo) && Objects.equals(nickname, that.nickname)
+                && level == that.level && useYn == that.useYn && Objects.equals(joinDate, that.joinDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(meetJoinId, userSeq, meetInfo, nickname, level, useYn, joinDate);
     }
 }
