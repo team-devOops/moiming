@@ -31,7 +31,7 @@ class UserServiceTest {
     void signUp() {
         //given
         SignUpRequest request = SignUpRequest.builder()
-                .id("1")
+                .userId("1")
                 .name("name")
                 .password("password")
                 .email("asdsadsad02@gmial.com")
@@ -50,7 +50,7 @@ class UserServiceTest {
     void signUpFail() {
         //given
         final User 저장된_유저 = 저장된_유저(User.builder()
-                .id("1")
+                .userId("1")
                 .name("name")
                 .password("password")
                 .birthDate(LocalDate.of(1995, 1, 1))
@@ -58,7 +58,7 @@ class UserServiceTest {
                 .build());
 
         SignUpRequest request = SignUpRequest.builder()
-                .id(저장된_유저.getId())
+                .userId(저장된_유저.getUserId())
                 .name("name")
                 .password("password")
                 .email("kbh05@sadasd.com")
@@ -75,7 +75,7 @@ class UserServiceTest {
     void signUpFail2() {
         //given
         final User 저장된_유저 = 저장된_유저(User.builder()
-                .id("1")
+                .userId("1")
                 .name("name")
                 .password("password")
                 .birthDate(LocalDate.of(1995, 1, 1))
@@ -83,7 +83,7 @@ class UserServiceTest {
                 .build());
 
         SignUpRequest request = SignUpRequest.builder()
-                .id("2")
+                .userId("2")
                 .name("name")
                 .password("password")
                 .email(저장된_유저.getEmail().getValue())

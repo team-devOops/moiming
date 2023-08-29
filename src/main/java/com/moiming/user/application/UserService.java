@@ -26,7 +26,7 @@ public class UserService {
     public Long signUp(SignUpRequest request) {
         log.info("signUp request: {}", request);
 
-        User singUpUser = User.builder().id(request.id())
+        User singUpUser = User.builder().userId(request.userId())
                         .password(request.password())
                         .email(Email.of(request.email()))
                         .name(request.name())
@@ -34,7 +34,7 @@ public class UserService {
                         .build();
 
 
-        userRepository.findById(singUpUser.getId()).ifPresent(user -> {
+        userRepository.findByUserId(singUpUser.getUserId()).ifPresent(user -> {
             throw new DuplicationException(EXIST_ID.getMessage());
         });
 

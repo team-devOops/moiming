@@ -26,7 +26,7 @@ class UserTest {
         assertThatIllegalArgumentException().isThrownBy(
                 () -> User.builder().birthDate(LocalDate.of(1995, 8, 2))
                         .email(collectEmail)
-                        .id("kbh052")
+                        .userId("kbh052")
                         .name(name)
                         .password("1234")
                         .build());
@@ -37,11 +37,11 @@ class UserTest {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("유저의 아이디는 비어 있으면 안된다")
-    void noIdUser(String id) {
+    void noIdUser(String userId) {
         assertThatIllegalArgumentException().isThrownBy(
                 () -> User.builder().birthDate(LocalDate.of(1995, 8, 2))
                         .email(collectEmail)
-                        .id(id)
+                        .userId(userId)
                         .name("name")
                         .password("1234")
                         .build());
@@ -54,7 +54,7 @@ class UserTest {
         assertThatIllegalArgumentException().isThrownBy(()
                 -> User.builder().birthDate(LocalDate.of(1995, 8, 2))
                 .email(collectEmail)
-                .id("kbh052")
+                .userId("kbh052")
                 .name("name")
                 .password(password)
                 .build());
@@ -66,7 +66,7 @@ class UserTest {
         assertThatIllegalArgumentException().isThrownBy(()
                 -> User.builder().birthDate(null)
                 .email(collectEmail)
-                .id("kbh052")
+                .userId("kbh052")
                 .name("name")
                 .password("1234")
                 .build());

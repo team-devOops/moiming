@@ -32,9 +32,9 @@ public class User {
 
     @NotNull
     @Size(min = 4, max = 20)
-    @Column(name = "ID", unique = true)
+    @Column(name = "USER_ID", unique = true)
     @Comment("유저 아이디")
-    private String id;
+    private String userId;
 
     @Embedded
     @NotNull
@@ -74,14 +74,14 @@ public class User {
     private String authYn;
 
     @Builder
-    private User(Long seq, String id, Email email, String name, String password, LocalDate birthDate) {
-        validateId(id);
-        validatePassword(password);
-        validateName(name);
-        validateBirthDate(birthDate);
+    private User(Long seq, String userId, Email email, String name, String password, LocalDate birthDate) {
+        validateNonEmpty(userId, "유저아이디");
+        validateNonEmpty(password, "패스워드");
+        validateNonEmpty(name, "이름");
+        validateNonNull(birthDate, "생년월일");
 
         this.seq = seq;
-        this.id = id;
+        this.userId = userId;
         this.email = email;
         this.name = name;
         this.password = password;
@@ -90,27 +90,15 @@ public class User {
         this.authYn = "N";
     }
 
-    private void validateId(String id) {
-        if (id == null || id.isEmpty()) {
-            throw new IllegalArgumentException("아이디가 비어있습니다.");
+    private void validateNonEmpty(String value, String fieldName) {
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException(fieldName + "이(가) 비어있습니다.");
         }
     }
 
-    private void validatePassword(String password) {
-        if (password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("비밀번호가 비어있습니다.");
-        }
-    }
-
-    private void validateName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("이름이 비어있습니다.");
-        }
-    }
-
-    private void validateBirthDate(LocalDate birthDate) {
-        if (birthDate == null) {
-            throw new IllegalArgumentException("생일이 비어있습니다.");
+    private <T> void validateNonNull(T value, String fieldName) {
+        if (value == null) {
+            throw new IllegalArgumentException(fieldName + "이(가) 비어있습니다.");
         }
     }
 }

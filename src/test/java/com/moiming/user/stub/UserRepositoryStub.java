@@ -17,7 +17,7 @@ public class UserRepositoryStub implements UserRepository {
 
         User newUser = User.builder()
                         .seq(key)
-                        .id(user.getId())
+                        .userId(user.getUserId())
                         .birthDate(user.getBirthDate())
                         .email(user.getEmail())
                         .name(user.getName())
@@ -30,10 +30,15 @@ public class UserRepositoryStub implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(String id) {
+    public User saveAndFlush(User user) {
+        return save(user);
+    }
+
+    @Override
+    public Optional<User> findByUserId(String userId) {
         return users.values()
                 .stream()
-                .filter(it -> it.getId().equals(id))
+                .filter(it -> it.getUserId().equals(userId))
                 .findFirst();
 
     }

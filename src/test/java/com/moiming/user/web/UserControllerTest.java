@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moiming.user.dto.SignUpRequest;
 import java.time.LocalDate;
@@ -30,16 +31,19 @@ class UserControllerTest {
 
     @Test
     void signUp() throws Exception {
-        SignUpRequest signUpRequest = new SignUpRequest("kbh2","패스워드","kbh0581@Gmail.com","이름", LocalDate.now());
+        SignUpRequest signUpRequest = new SignUpRequest("kbh2", "패스워드", "kbh0581@Gmail.com", "이름", LocalDate.now());
         String s = objectMapper.writeValueAsString(signUpRequest);
-
 
         mockMvc.perform(post("/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest)))
+                        .content(s))
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    private String json변환(Object payload) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(payload);
     }
 
 }
