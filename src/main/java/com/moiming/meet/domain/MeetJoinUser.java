@@ -34,8 +34,8 @@ public class MeetJoinUser extends BaseEntity {
     @Column(name = "NICKNAME", nullable = false, columnDefinition = "varchar(16)")
     private String nickname;
 
-    @Embedded
     @Comment("등급")
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "LEVEL", nullable = false, columnDefinition = "varchar(16)")
     private Level level;
 
