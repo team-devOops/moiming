@@ -31,7 +31,6 @@ class UserTest {
                         .password("1234")
                         .build());
 
-
     }
 
     @ParameterizedTest

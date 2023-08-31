@@ -91,7 +91,7 @@ public class User {
     }
 
     private void validateNonEmpty(String value, String fieldName) {
-        if (value.isEmpty()) {
+        if (value == null || value.isEmpty()) {
             throw new IllegalArgumentException(fieldName + "이(가) 비어있습니다.");
         }
     }
