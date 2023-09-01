@@ -1,6 +1,9 @@
 package com.moiming.core;
 
 import com.moiming.core.exception.CustomNoResultException;
+import com.moiming.core.exception.DuplicationException;
+import java.util.List;
+import java.util.stream.Collectors;
 import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
@@ -9,9 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class BaseControllerAdvice {
@@ -54,6 +54,13 @@ public class BaseControllerAdvice {
     public ResponseEntity<String> noResultExceptionExceptionHandler(CustomNoResultException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(DuplicationException.class)
+    public ResponseEntity<String> duplicationExceptionHandler(DuplicationException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(e.getMessage());
     }
 }
